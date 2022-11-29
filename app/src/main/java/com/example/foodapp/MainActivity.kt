@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.makeApiCall()
+        observeRetrofitState()
 
 
     }
@@ -28,15 +29,15 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch{
             viewModel.retrofitState.collect{
                 when(it){
-                    MainViewModel.FoodRetrofitEvent.Idle -> TODO()
-                    MainViewModel.FoodRetrofitEvent.Running -> TODO()
+                    MainViewModel.FoodRetrofitEvent.Idle -> {}
+                    MainViewModel.FoodRetrofitEvent.Running -> {}
                     is MainViewModel.FoodRetrofitEvent.Successful -> {
                         if(it.response != null)
                         {
-                            binding.apiResults = it.response
+                            binding.apiResults.text = it.response.toString()
                         }
                     }
-                    is MainViewModel.FoodRetrofitEvent.Failed -> TODO()
+                    is MainViewModel.FoodRetrofitEvent.Failed -> {}
                 }
             }
         }
