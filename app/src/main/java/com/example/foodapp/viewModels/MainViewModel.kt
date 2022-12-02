@@ -13,8 +13,11 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
 
 class MainViewModel: ViewModel() {
+
+
 
     sealed class FoodRetrofitEvent {
         object Idle : FoodRetrofitEvent()
@@ -26,22 +29,13 @@ class MainViewModel: ViewModel() {
     private val _retrofitState = MutableStateFlow<FoodRetrofitEvent>(FoodRetrofitEvent.Idle)
     val retrofitState: StateFlow<FoodRetrofitEvent> = _retrofitState
 
-    sealed class ProductRetrofitEvent {
-        object Idle : ProductRetrofitEvent()
-        object Running : ProductRetrofitEvent()
-        data class Successful(val response: ProductResponse?) : ProductRetrofitEvent()
-        data class Failed(val msg: String?) : ProductRetrofitEvent()
-    }
 
-    private val _prodretrofitState = MutableStateFlow<ProductRetrofitEvent>(ProductRetrofitEvent.Idle)
-    val prodretrofitState: StateFlow<ProductRetrofitEvent> = _prodretrofitState
 
     fun makeApiCall(){
         viewModelScope.launch(Dispatchers.IO) {
 
             val foodService = retrofit.create(FoodService::class.java)
-            val foodCall = foodService.getFood("pepsi",1)
-            val productCall = foodService.getProduct(2018165)
+            val foodCall = foodService.getFood("pepsi",2)
 
             foodCall.enqueue(object: Callback<FoodResponse> {
                 override fun onResponse(
@@ -61,22 +55,6 @@ class MainViewModel: ViewModel() {
                 }
             })
 
-            productCall.enqueue(object: Callback<ProductResponse>{
-                override fun onResponse(
-                    call: Call<ProductResponse>,
-                    response: Response<ProductResponse>
-                ) {
-                    if (!response.isSuccessful) {
-                        val codeStr = response.code().toString()
-                        _prodretrofitState.tryEmit(ProductRetrofitEvent.Failed(codeStr))
-                        return
-                    }
-                    _prodretrofitState.tryEmit(ProductRetrofitEvent.Successful(response.body()))
-                }
-                override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
-                    _prodretrofitState.tryEmit(ProductRetrofitEvent.Failed(t.message))
-                }
-            })
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.foodapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.foodapp.databinding.ActivityMainBinding
@@ -19,8 +20,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.makeApiCall()
-        observeRetrofitState()
+
+        binding.apiCallBtn.setOnClickListener {
+            viewModel.makeApiCall()
+            observeRetrofitState()
+        }
 
 
     }
@@ -37,7 +41,10 @@ class MainActivity : AppCompatActivity() {
                             binding.apiResults.text = it.response.toString()
                         }
                     }
-                    is MainViewModel.FoodRetrofitEvent.Failed -> {}
+                    is MainViewModel.FoodRetrofitEvent.Failed -> {
+                        val text = "Failure: ${it.msg}"
+                        Toast.makeText(applicationContext,text,Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

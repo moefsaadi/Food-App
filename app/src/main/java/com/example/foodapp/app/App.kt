@@ -29,10 +29,12 @@ class App: Application() {
 
     override fun onCreate() {
 
-        retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
+
+            retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build()
+
 
         super.onCreate()
     }
