@@ -9,17 +9,17 @@ import retrofit2.http.Query
 interface FoodService {
 
     @Headers("x-api-key: be6e8758bd23476da8ae4d867def3aa7")
-    @GET("search?query=food&number=100")
+    @GET("products/search?query=food&number=100")
     suspend fun getFood(
         @Query("query") food: String,
         @Query("number") numResults: Int,
-    ): Call<FoodResponse>
+    ): ApiResult<FoodResponse>
 
     @Headers("x-api-key: be6e8758bd23476da8ae4d867def3aa7")
-    @GET("{id}")
+    @GET("products/{id}")
     suspend fun getProduct(
         @Path("id") id: Int,
-    ): Call<ProductResponse>
+    ): ApiResult<ProductResponse>
 
 }
 

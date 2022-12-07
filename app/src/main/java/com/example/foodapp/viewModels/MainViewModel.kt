@@ -1,23 +1,19 @@
 package com.example.foodapp.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.foodapp.api.ApiResult
 import com.example.foodapp.api.FoodResponse
 import com.example.foodapp.api.FoodService
-import com.example.foodapp.api.ProductResponse
 import com.example.foodapp.app.App.Companion.retrofit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+import retrofit2.create
 
 class MainViewModel: ViewModel() {
-
-
 
     sealed class FoodRetrofitEvent {
         object Idle : FoodRetrofitEvent()
@@ -31,30 +27,49 @@ class MainViewModel: ViewModel() {
 
 
 
-    fun makeApiCall(){
+    fun makeFirstApiCall(){
         viewModelScope.launch(Dispatchers.IO) {
 
             val foodService = retrofit.create(FoodService::class.java)
-            val foodCall = foodService.getFood("pepsi",2)
+            val result = foodService.getFood("pepsi",2)
 
-            foodCall.enqueue(object: Callback<FoodResponse> {
-                override fun onResponse(
-                    call: Call<FoodResponse>,
-                    response: Response<FoodResponse>
-                ) {
-                    if(!response.isSuccessful){
-                        val codeStr = response.code().toString()
-                        _retrofitState.tryEmit(FoodRetrofitEvent.Failed(codeStr))
-                        return
-                    }
-                    _retrofitState.tryEmit(FoodRetrofitEvent.Successful(response.body()))
+
+            when(result){
+                //every other response code, 401, 403, etc.
+                is ApiResult.Failure -> {
+                    _retrofitState.tryEmit(FoodRetrofitEvent.Failed("${result.responseCode}"))
                 }
-
-                override fun onFailure(call: Call<FoodResponse>, t: Throwable) {
-                    _retrofitState.tryEmit(FoodRetrofitEvent.Failed(t.message))
+                //any other error, like internet
+                ApiResult.NetworkFailure -> {
+                    _retrofitState.tryEmit(FoodRetrofitEvent.Failed("network_oops"))
                 }
-            })
+                //only reach when 200-OK
+                is ApiResult.Success -> {
+                    _retrofitState.tryEmit(FoodRetrofitEvent.Successful(result.result))
 
+                    //make the second call with this
+                    //val firstProductId = result.result.products[0].id
+                }
+            }
+        }
+    }
+
+    fun makeSecondApiCall(id: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            val foodService = retrofit.create(FoodService::class.java)
+
+            val result = foodService.getProduct(id)
+            when (result) {
+                is ApiResult.Failure -> {
+                    Log.i("SECONDCALL", "failed with ${result.responseCode}")
+                }
+                ApiResult.NetworkFailure -> {
+                    Log.i("SECONDCALL", "failed unknowingly")
+                }
+                is ApiResult.Success -> {
+                    Log.i("SECONDCALL", "pepsi costs this much \$${result.result.id}")
+                }
+            }
         }
     }
 }
