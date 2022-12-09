@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.apiCallBtn.setOnClickListener {
-            viewModel.makeFirstApiCall()
+            //viewModel.makeFirstApiCall()
             viewModel.makeSecondApiCall(765467)
             observeRetrofitState()
         }
