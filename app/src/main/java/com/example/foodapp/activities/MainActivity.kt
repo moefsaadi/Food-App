@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        binding.apiCallBtn.setOnClickListener {
+        binding.searchBtn.setOnClickListener {
             //viewModel.makeFirstApiCall()
             viewModel.makeSecondApiCall(765467)
             observeRetrofitState()
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     is MainViewModel.FoodRetrofitEvent.Successful -> {
                         if(it.response != null)
                         {
-                            binding.apiResults.text = it.response.toString()
+
                         }
                     }
                     is MainViewModel.FoodRetrofitEvent.Failed -> {
