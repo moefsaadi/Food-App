@@ -9,6 +9,7 @@
     tools:context=".activities.MainActivity">
 
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txt_prod_layout"
         android:layout_width="match_parent"
@@ -79,6 +80,12 @@
 
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="409dp"
+        android:layout_height="222dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

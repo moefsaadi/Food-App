@@ -27,11 +27,11 @@ class MainViewModel: ViewModel() {
 
 
 
-    fun makeFirstApiCall(){
+    fun makeFirstApiCall(prodInput: String, resultInput: Int ){
         viewModelScope.launch(Dispatchers.IO) {
 
             val foodService = retrofit.create(FoodService::class.java)
-            val result = foodService.getFood("pepsi",2)
+            val result = foodService.getFood(prodInput,resultInput)
 
 
             when(result){

@@ -52,10 +52,16 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.searchBtn.setOnClickListener {
-            //viewModel.makeFirstApiCall()
-            viewModel.makeSecondApiCall(765467)
+            val prodInput = binding.txtProdInput.text.toString()
+
+            if(!binding.txtProdInput.toString().isEmpty()){
+                val resultInput = binding.txtResultnumInput.text.toString().toInt()
+                viewModel.makeFirstApiCall(prodInput,resultInput)
+            }
+            //viewModel.makeSecondApiCall(765467)
             observeRetrofitState()
         }
+
 
 
     }
