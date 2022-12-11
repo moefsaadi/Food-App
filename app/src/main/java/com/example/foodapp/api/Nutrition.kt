@@ -7,15 +7,15 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Nutrition(
     @Json(name = "caloricBreakdown")
-    val caloricBreakdown: CaloricBreakdown,
+    val caloricBreakdown: CaloricBreakdown?,
     @Json(name = "calories")
-    val calories: Double,
+    val calories: Double?,
     @Json(name = "carbs")
-    val carbs: String,
+    val carbs: String?,
     @Json(name = "fat")
-    val fat: String,
+    val fat: String?,
     @Json(name = "nutrients")
-    val nutrients: List<Nutrient>,
+    val nutrients: List<Nutrient>?,
     @Json(name = "protein")
-    val protein: String
+    val protein: String?
 )

@@ -41,7 +41,7 @@ class MainViewModel: ViewModel() {
                 }
                 //any other error, like internet
                 ApiResult.NetworkFailure -> {
-                    _retrofitState.tryEmit(FoodRetrofitEvent.Failed("network_oops"))
+                    _retrofitState.tryEmit(FoodRetrofitEvent.Failed("Network Failure!"))
                 }
                 //only reach when 200-OK
                 is ApiResult.Success -> {

@@ -1,12 +1,15 @@
-package com.example.foodapp
+package com.example.foodapp.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.foodapp.R
 import com.example.foodapp.databinding.ActivityMainBinding
 import com.example.foodapp.viewModels.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -19,6 +22,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Set Search Activity on Nav Bar
+        binding.bottomNavBar.selectedItemId = R.id.search_menu
+
+        binding.bottomNavBar.setOnItemSelectedListener { item ->
+            when(item.itemId){
+                R.id.setting_menu ->
+                {
+                    val intent = Intent(this,SettingsActivity::class.java)
+                    overridePendingTransition(0,0)
+                    startActivity(intent)
+                    true
+                }
+                R.id.search_menu ->
+                {
+                    true
+                }
+                R.id.history_menu ->
+                {
+                    val intent = Intent(this,HistoryActivity::class.java)
+                    overridePendingTransition(0,0)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
 
 
         binding.apiCallBtn.setOnClickListener {
@@ -50,4 +80,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

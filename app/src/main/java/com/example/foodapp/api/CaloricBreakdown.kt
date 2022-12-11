@@ -7,9 +7,9 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CaloricBreakdown(
     @Json(name = "percentCarbs")
-    val percentCarbs: Double,
+    val percentCarbs: Double?,
     @Json(name = "percentFat")
-    val percentFat: Double,
+    val percentFat: Double?,
     @Json(name = "percentProtein")
-    val percentProtein: Double
+    val percentProtein: Double?
 )
