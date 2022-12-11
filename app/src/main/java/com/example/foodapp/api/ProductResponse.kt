@@ -20,8 +20,8 @@ data class ProductResponse(
     val importantBadges: List<String>,
     @Json(name = "ingredientCount")
     val ingredientCount: Int,
-    //@Json(name = "generatedText")
-    //val generatedText: Any,
+    @Json(name = "generatedText")
+    val generatedText: String?,
     @Json(name = "ingredientList")
     val ingredientList: String,
     @Json(name = "ingredients")
@@ -30,8 +30,8 @@ data class ProductResponse(
     val likes: Int,
     @Json(name = "aisle")
     val aisle: String?,
-    //@Json(name = "nutrition")
-    //val nutrition: Nutrition,
+    @Json(name = "nutrition")
+    val nutrition: Nutrition,
     @Json(name = "price")
     val price: Double,
     @Json(name = "servings")

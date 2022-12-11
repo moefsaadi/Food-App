@@ -7,11 +7,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Nutrient(
     @Json(name = "amount")
-    val amount: Double,
+    val amount: Double?,
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "percentOfDailyNeeds")
-    val percentOfDailyNeeds: Double,
+    val percentOfDailyNeeds: Double?,
     @Json(name = "unit")
-    val unit: String
+    val unit: String?
 )
