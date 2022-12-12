@@ -3,10 +3,13 @@ package com.example.foodapp.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.GridLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodapp.R
+import com.example.foodapp.RecyclerViewAdapter
 import com.example.foodapp.databinding.ActivityMainBinding
 import com.example.foodapp.viewModels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -22,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.recyclerView.layoutManager = GridLayoutManager(this,2)
+
 
         //Set Search Activity on Nav Bar
         binding.bottomNavBar.selectedItemId = R.id.search_menu
@@ -75,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                     is MainViewModel.FoodRetrofitEvent.Successful -> {
                         if(it.response != null)
                         {
+                            binding.recyclerView.adapter = RecyclerViewAdapter(it.response)
 
                         }
                     }
