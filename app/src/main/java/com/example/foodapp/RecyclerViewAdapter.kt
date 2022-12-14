@@ -35,15 +35,8 @@ class RecyclerViewAdapter(
         val food = myList[position]
 
         holder.textViewFood.text = food.title
-        Picasso.get().load(food.image).centerCrop().into(holder.imgViewFood)
+        Picasso.get().load(food.image).resize(200,200).centerCrop().into(holder.imgViewFood)
 
     }
-
-
-
-
-
-
-
 
 }

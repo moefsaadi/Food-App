@@ -3,6 +3,7 @@ package com.example.foodapp.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -26,12 +27,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Initialize Recycler View in Grid Format (2 columns)
         binding.recyclerView.layoutManager = GridLayoutManager(this,2)
 
 
         //Set Search Activity on Nav Bar
         binding.bottomNavBar.selectedItemId = R.id.search_menu
 
+        //Navigation actions when User clicks Bottom Navigation Bar
         binding.bottomNavBar.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.setting_menu ->
@@ -57,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        //Search actions when User clicks 'Search' Button
         binding.searchBtn.setOnClickListener {
             val prodInput = binding.txtProdInput.text.toString()
 
@@ -64,10 +68,15 @@ class MainActivity : AppCompatActivity() {
                 val resultInput = binding.txtResultnumInput.text.toString().toInt()
                 viewModel.makeFirstApiCall(prodInput,resultInput)
             }
+            binding.searchBtn.visibility = View.INVISIBLE
+            binding.txtProdInput.visibility = View.INVISIBLE
+            binding.txtResultnumInput.visibility = View.INVISIBLE
+            binding.txtProdLayout.visibility = View.INVISIBLE
+            binding.txtResultnumLayout.visibility = View.INVISIBLE
+
             //viewModel.makeSecondApiCall(765467)
             observeRetrofitState()
         }
-
 
 
     }
@@ -81,8 +90,7 @@ class MainActivity : AppCompatActivity() {
                     is MainViewModel.FoodRetrofitEvent.Successful -> {
                         if(it.response != null)
                         {
-                            binding.recyclerView.adapter = RecyclerViewAdapter(it.response)
-
+                            binding.recyclerView.adapter = RecyclerViewAdapter(it.response.products)
                         }
                     }
                     is MainViewModel.FoodRetrofitEvent.Failed -> {
@@ -93,6 +101,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
 }
