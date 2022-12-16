@@ -22,12 +22,3 @@ interface FoodService {
     ): ApiResult<ProductResponse>
 
 }
-
-
-
-//@GET("search?")
-
-//@Query("food") food: String,
-//@Query("numResults") numResults: Int
-
-//"https://api.spoonacular.com/food/products/search?food=pepsi&numResults=1"

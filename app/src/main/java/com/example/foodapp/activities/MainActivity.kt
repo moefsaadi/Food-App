@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
             observeRetrofitState()
         }
 
-
     }
 
     private fun observeRetrofitState(){
@@ -92,6 +91,7 @@ class MainActivity : AppCompatActivity() {
                         {
                             binding.recyclerView.adapter = RecyclerViewAdapter(it.response.products)
                         }
+
                     }
                     is MainViewModel.FoodRetrofitEvent.Failed -> {
                         val text = "Failure: ${it.msg}"

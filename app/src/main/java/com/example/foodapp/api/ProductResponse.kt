@@ -38,13 +38,9 @@ data class ProductResponse(
     val servings: Servings,
     @Json(name = "spoonacularScore")
     val spoonacularScore: Double?,
+    @Json(name = "description")
+    val description: String?,
+    @Json(name = "image")
+    val image: String?,
 
-    /*@Json(name = "brand")
-val brand: String,
-@Json(name = "description")
-val description: String,
-@Json(name = "image")
-val image: String,
-@Json(name = "images")
-val images: List<String>,*/
 )
